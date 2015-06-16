@@ -4,7 +4,7 @@ include ActiveRecord::Tasks
 
 root = File.expand_path '..', __FILE__
 DatabaseTasks.env = ENV["DRS_ENV"]
-DatabaseTasks.database_configuration = YAML.load(File.read(File.join(root, 'config/database.yml')))
+DatabaseTasks.database_configuration = DB_CONFIG
 DatabaseTasks.db_dir = File.join root, 'db'
 DatabaseTasks.fixtures_path = File.join root, 'test/fixtures'
 DatabaseTasks.migrations_paths = [File.join(root, 'db/migrate')]
@@ -16,3 +16,4 @@ task :environment do
 end
 
 load 'active_record/railties/databases.rake'
+load './tasks.rake'

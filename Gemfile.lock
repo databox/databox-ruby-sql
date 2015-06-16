@@ -16,6 +16,8 @@ GEM
       activemodel (= 4.2.1)
       activesupport (= 4.2.1)
       arel (~> 6.0)
+    activerecord-import (0.8.0)
+      activerecord (>= 3.0)
     activesupport (4.2.1)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -41,6 +43,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (~> 4.2)
+  activerecord-import
   databox!
   pg
 

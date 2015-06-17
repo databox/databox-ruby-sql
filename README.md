@@ -2,6 +2,8 @@
 
 How to quickly stream data from [PostgreSQL](http://www.postgresql.org/) to Databox with [Databox Ruby Gem](https://github.com/databox/databox-ruby)?
 
+![databox_demo.gif](databox_demo.gif)
+
 ## Example
 
 This example contains example on how to create [PostgreSQL](http://www.postgresql.org/) database that will hold OPEC oil prices. When new price is inserted into `prices` table PostgreSQL triggers `NOTIFY` and [streamer.rb](streamer.rb) `LISTEN`s and sends data to Databox.

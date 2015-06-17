@@ -2,6 +2,9 @@ require 'json'
 require 'net/http'
 
 class Price < ActiveRecord::Base
+  def to_s
+    "#{volume} on #{date}"
+  end
 
   def self.all_from_ws(prices_json_path="./prices.json", start="2000-01-01")
     prices_raw = if File.exists?(prices_json_path)

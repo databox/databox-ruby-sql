@@ -3,6 +3,8 @@ require 'databox'
 require 'yaml'
 require 'active_record'
 require 'activerecord-import'
+require 'dotenv'
+Dotenv.load
 
 ENV["DRS_ENV"] ||= "development"
 
@@ -15,5 +17,5 @@ ActiveRecord::Base.logger.level = Logger::DEBUG
 
 DB_CONFIG = YAML::load(File.open('./config/database.yml'))
 ActiveRecord::Base.establish_connection(DB_CONFIG[ENV["DRS_ENV"]])
-
+ActiveRecord::Base.schema_format = :sql
 require_relative './price.rb'

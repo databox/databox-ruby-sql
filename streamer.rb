@@ -1,32 +1,43 @@
 #!/usr/bin/env ruby
+# encoding: UTF-8
+
 require_relative './boot.rb'
 
-puts "Streamer"
+puts "Streamer. Up."
+
+class PriceStreamer
+  attr_accessor :price, :client
+  def initialize(price={}, client=Databox::Client.new)
+    self.client = client
+    self.price = price.is_a?(Hash) ? Price.new(price) : price
+  end
+
+  def stream
+    puts self.client.push(
+      "ruby.oilprice",
+      self.price.volume,
+      self.price.date
+    ) ? "#{self} to SQL → Databox ✓" : "Error inserting! ✘"
+  end
+
+  def to_s
+    self.price.to_s
+  end
+end
 
 ActiveRecord::Base.connection_pool.with_connection do |connection|
-  conn = connection.instance_variable_get(:@connection)
+  c = connection.instance_variable_get(:@connection)
 
   begin
-    conn.async_exec "LISTEN meme"
-    conn.async_exec "LISTEN meme_x"
+    c.async_exec "LISTEN pricesinserted"
 
-    conn.wait_for_notify do |channel, pid, payload|
-      puts "1 Received a NOTIFY on channel #{channel}"
-      puts "from PG backend #{pid}"
-      puts "saying #{payload}"
+    loop do
+      c.wait_for_notify do |channel, _, payload|
+        return if channel != "pricesinserted"
+        PriceStreamer.new(JSON.load(payload)).stream
+      end
     end
-
-
-    conn.wait_for_notify(0.5) do |channel, pid, payload|
-      puts "2 Received a NOTIFY on channel #{channel}"
-      puts "from PG backend #{pid}"
-      puts "saying #{payload}"
-    end
-
   ensure
-    # Don't want the connection to still be listening once we return
-    # it to the pool - could result in weird behavior for the next
-    # thread to check it out.
-    conn.async_exec "UNLISTEN *"
+    c.async_exec "UNLISTEN *"
   end
 end

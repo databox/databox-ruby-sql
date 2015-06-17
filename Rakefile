@@ -12,6 +12,7 @@ DatabaseTasks.root = root
 
 task :environment do
   ActiveRecord::Base.configurations = DatabaseTasks.database_configuration
+  ActiveRecord::Base.schema_format = :sql
   ActiveRecord::Base.establish_connection DatabaseTasks.env.to_sym
 end
 

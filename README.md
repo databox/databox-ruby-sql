@@ -1,12 +1,12 @@
 # SQL → Databox with Databox Ruby Gem
 
-Answer to the question: How to move data from [PostgreSQL](http://www.postgresql.org/) to Databox with [Databox Ruby Gem / SDK](https://github.com/databox/databox-ruby)?
+How to quickly stream data from [PostgreSQL](http://www.postgresql.org/) to Databox with [Databox Ruby Gem](https://github.com/databox/databox-ruby)?
 
 ## Example
 
-This example project contains example on how to create simple [PostgreSQL](http://www.postgresql.org/) database that will hold OPEC oil prices. When new oil price is inserted into `prices` table PostgreSQL triggers `NOTIFY` and asynchronously [streamer.rb](streamer.rb) `LISTEN`s and sends data to Databox.
+This example contains example on how to create [PostgreSQL](http://www.postgresql.org/) database that will hold OPEC oil prices. When new price is inserted into `prices` table PostgreSQL triggers `NOTIFY` and [streamer.rb](streamer.rb) `LISTEN`s and sends data to Databox.
 
-This are the steps to get you going...
+## Steps to get you going...
 
 First create new `.env` in current project folder with your `DATABOX_PUSH_TOKEN`.
 
